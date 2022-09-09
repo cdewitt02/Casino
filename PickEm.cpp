@@ -11,7 +11,7 @@ int number_engine(int balance, int bet){ //GAME ENGINE
     int guess;
     cout<<"\nPlace your bet: ";
     scanf("%d", &bet);
-    while(bet > balance){
+    while(bet > balance || bet <= 0){
         cout<<"Invalid bet, try again: ";
         scanf("%d", &bet);
     }
@@ -37,12 +37,16 @@ int number_engine(int balance, int bet){ //GAME ENGINE
 int casino(int balance, int bet, char* name){ //PLAY AGAIN RECURSION
     char c;
     cout<<"\nCurrent balance: $"<<balance;
+    if (balance <= 0){
+        cout<<"\nGAME OVER";
+        return balance;
+    }
     double curr_balance = number_engine(balance, bet);
     cout<<"\nPLAY AGAIN? Y/N: ";
     while((getchar()!= '\n'));
     c = getchar();
     if(c == 'Y' || c == 'y'){
-       return casino(balance, bet, name);
+       return casino(curr_balance, bet, name);
     }
     else
         return curr_balance;
@@ -52,7 +56,7 @@ int main(){
     int balance; int bet; char name[30];
     cout<<"ENTER NAME (max 30 characters): ";
     fgets(name, sizeof name, stdin);
-    cout<<"\nENTER BALANCE: ";
+    cout<<"\nENTER BALANCE (must be positive integer): ";
     scanf("%d", &balance);
     cout<<"\n|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n";
 
